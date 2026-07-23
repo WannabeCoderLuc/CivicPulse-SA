@@ -14,7 +14,7 @@ export default function AnalyticsPage() {
           Performance Analytics
         </motion.h1>
         <p className="text-gray-500 text-sm mt-1">
-          Visual performance tracking — reports by category and ward-level service delivery metrics
+          Visual performance tracking  reports by category and ward-level service delivery metrics
         </p>
       </div>
       <AnalyticsCharts />

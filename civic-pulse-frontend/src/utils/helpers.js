@@ -15,15 +15,15 @@ export function getStatusBadgeClass(status) {
 
 export function getStatusDot(status) {
   const map = {
-    Completed: "??",
-    "In Progress": "??",
-    "Repair Started": "??",
-    Assigned: "??",
-    Verified: "??",
-    Urgent: "??",
-    Reported: "??",
+    Completed: "-",
+    "In Progress": "-",
+    "Repair Started": "-",
+    Assigned: "-",
+    Verified: "-",
+    Urgent: "-",
+    Reported: "-",
   };
-  return map[status] || "?";
+  return map[status] || "-";
 }
 
 export function getStatusColor(status) {
@@ -35,7 +35,7 @@ export function getCategoryColor(category) {
 }
 
 export function getCategoryIcon(category) {
-  return CATEGORY_ICONS[category] || "??";
+  return CATEGORY_ICONS[category] || "";
 }
 
 export function formatDate(dateString) {

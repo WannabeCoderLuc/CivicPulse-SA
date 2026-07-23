@@ -38,7 +38,7 @@ export default function LiveFeed() {
                 <span className="text-xl mt-0.5">{getCategoryIcon(report.category)}</span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-white truncate">{report.title}</p>
-                  <p className="text-xs text-gray-500">{report.ward} � {timeAgo(report.createdAt)}</p>
+                  <p className="text-xs text-gray-500">{report.ward}  {timeAgo(report.createdAt)}</p>
                 </div>
                 <StatusBadge status={report.status} />
               </motion.div>

@@ -62,7 +62,7 @@ public static class ValidStatuses
 
     public static bool IsValid(string status) => _all.Contains(status);
 
-    // Pipeline order used by GetInitialStages — Urgent/InProgress are lateral states,
+
     // not sequential, so they are intentionally absent from this ordered list.
     public static readonly string[] PipelineOrder =
         [Reported, Verified, Assigned, RepairStarted, Completed];

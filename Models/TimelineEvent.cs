@@ -20,8 +20,7 @@ public class TimelineEvent
 
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-    // Human-readable elapsed time for display in the audit trail —
-    // avoids sending a second request just to format the timestamp on the frontend.
+
     public string ElapsedLabel
     {
         get

@@ -25,20 +25,20 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function AnalyticsCharts() {
-  console.log("ENTER: AnalyticsCharts render");
+
 
   const [categoryData, setCategoryData] = useState([]);
   const [wardData, setWardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("ENTER: AnalyticsCharts.loadData");
+
     setIsLoading(true);
     Promise.all([fetchByCategory(), fetchWardPerformance()])
       .then(([cats, wards]) => {
         setCategoryData(cats);
         setWardData(wards);
-        console.log(`SUCCESS: AnalyticsCharts — ${cats.length} categories, ${wards.length} wards loaded`);
+        console.log(`SUCCESS: AnalyticsCharts ${cats.length} categories, ${wards.length} wards loaded`);
       })
       .catch((err) => {
         console.error(`ERR-ANALYTICS-001: loadData failed. ${err.message}`);
@@ -51,7 +51,7 @@ export default function AnalyticsCharts() {
     return (
       <div className="flex items-center justify-center py-24">
         <div className="w-8 h-8 border-2 border-civic-blue border-t-transparent rounded-full animate-spin" />
-        <span className="ml-3 text-gray-500">Loading analytics…</span>
+        <span className="ml-3 text-gray-500">Loading analytics</span>
       </div>
     );
   }

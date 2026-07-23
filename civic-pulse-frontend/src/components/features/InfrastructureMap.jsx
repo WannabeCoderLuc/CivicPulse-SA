@@ -19,7 +19,7 @@ function RecenterMap({ center }) {
 }
 
 export default function InfrastructureMap() {
-  console.log("ENTER: InfrastructureMap render");
+
 
   const { state } = useAppContext();
   const [filteredReports, setFilteredReports] = useState([]);
@@ -49,7 +49,7 @@ export default function InfrastructureMap() {
   }, [loadMapReports]);
 
   useEffect(() => {
-    console.log(`STATE_CHANGE: InfrastructureMap filter — category=${activeCategory} status=${activeStatus}`);
+    console.log(`STATE_CHANGE: InfrastructureMap filter  category=${activeCategory} status=${activeStatus}`);
     try {
       let result = [...localReports];
       if (activeCategory !== "All") {
@@ -59,7 +59,7 @@ export default function InfrastructureMap() {
         result = result.filter((r) => r.status === activeStatus);
       }
       setFilteredReports(result);
-      console.log(`SUCCESS: Filter applied — ${result.length} pins visible`);
+      console.log(`SUCCESS: Filter applied  ${result.length} pins visible`);
     } catch (err) {
       console.error(`ERR-MAP-002: Filter failed. ${err.message}`);
     }
@@ -67,7 +67,7 @@ export default function InfrastructureMap() {
 
   useEffect(() => {
     if (state.liveReports.length > 0) {
-      console.log("STATE_CHANGE: InfrastructureMap — merging live reports");
+      console.log("STATE_CHANGE: InfrastructureMap  merging live reports");
       const liveWithCoords = state.liveReports.filter((r) => r.latitude && r.longitude);
       setLocalReports((prev) => {
         const ids = new Set(prev.map((r) => r.id));
@@ -111,7 +111,7 @@ export default function InfrastructureMap() {
           </SelectContent>
         </Select>
         <span className="text-xs text-gray-500 ml-auto">
-          {isLoading ? "Loading…" : `${filteredReports.length} incident${filteredReports.length !== 1 ? "s" : ""}`}
+          {isLoading ? "Loading" : `${filteredReports.length} incident${filteredReports.length !== 1 ? "s" : ""}`}
         </span>
       </div>
 
@@ -128,7 +128,7 @@ export default function InfrastructureMap() {
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-900/80 rounded-2xl">
             <div className="text-center">
               <div className="w-8 h-8 border-2 border-civic-blue border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-              <p className="text-gray-400 text-sm">Loading incident map…</p>
+              <p className="text-gray-400 text-sm">Loading incident map</p>
             </div>
           </div>
         )}
@@ -188,7 +188,7 @@ export default function InfrastructureMap() {
               <span className="text-2xl">{getCategoryIcon(selectedReport.category)}</span>
               <div>
                 <p className="font-semibold text-white">{selectedReport.title}</p>
-                <p className="text-xs text-gray-500">{selectedReport.ward} · ID #{selectedReport.id}</p>
+                <p className="text-xs text-gray-500">{selectedReport.ward}  ID #{selectedReport.id}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">

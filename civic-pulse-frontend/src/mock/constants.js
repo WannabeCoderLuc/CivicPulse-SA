@@ -25,11 +25,11 @@ export const TIMELINE_STAGES = [
 ];
 
 export const CATEGORY_ICONS = {
-  Water: "??",
-  Electricity: "?",
-  Roads: "???",
-  Waste: "???",
-  Sewer: "??",
+  Water: "Water",
+  Electricity: "Electricity",
+  Roads: "Roads",
+  Waste: "Waste",
+  Sewer: "Sewer",
 };
 
 export const CATEGORY_COLORS = {
