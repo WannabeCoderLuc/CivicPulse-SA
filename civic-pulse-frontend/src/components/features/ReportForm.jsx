@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Loader2, Send, RotateCcw, MapPin } from "lucide-react";
@@ -21,7 +21,6 @@ export default function ReportForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [useCustomCoords, setUseCustomCoords] = useState(false);
-  const [selectedWard, setSelectedWard] = useState("");
 
   const {
     register,
@@ -43,25 +42,34 @@ export default function ReportForm() {
     },
   });
 
+  useEffect(() => {
+    register("ward", { required: "Please select a ward" });
+  }, [register]);
+
   const selectedCategory = watch("category");
+  const selectedWard = watch("ward");
 
   const onSubmit = async (formData) => {
     console.log("ENTER: ReportForm.onSubmit", formData);
     setIsSubmitting(true);
     try {
+      const latVal = parseFloat(formData.latitude);
+      const lngVal = parseFloat(formData.longitude);
+      const trimmedUrl = formData.imageUrl ? formData.imageUrl.trim() : "";
+
       const payload = {
         title: formData.title.trim(),
         description: formData.description.trim(),
         category: formData.category,
-        ward: selectedWard || formData.ward,
+        ward: formData.ward,
         reportedBy: formData.reportedBy.trim() || "Anonymous Citizen",
-        latitude: parseFloat(formData.latitude) || DEFAULT_COORDS.latitude,
-        longitude: parseFloat(formData.longitude) || DEFAULT_COORDS.longitude,
-        imageUrl: formData.imageUrl || "",
+        latitude: !isNaN(latVal) ? latVal : DEFAULT_COORDS.latitude,
+        longitude: !isNaN(lngVal) ? lngVal : DEFAULT_COORDS.longitude,
+        imageUrl: trimmedUrl.length > 0 ? trimmedUrl : null,
       };
 
       const newReport = await submitReport(payload);
-      console.log(`SUCCESS: ReportForm submitted  id=${newReport.id}`);
+      console.log(`SUCCESS: ReportForm submitted id=${newReport.id}`);
 
       dispatch({ type: "ADD_REPORT", payload: newReport });
       console.log("STATE_CHANGE: ADD_REPORT dispatched");
@@ -72,7 +80,6 @@ export default function ReportForm() {
       toastSuccess(`Report #${newReport.id} submitted to the municipality.`);
       setSubmitted(true);
       reset();
-      setSelectedWard("");
       setTimeout(() => {
         console.log("STATE_CHANGE: ReportForm.submitted reset to false");
         setSubmitted(false);
@@ -93,7 +100,7 @@ export default function ReportForm() {
       >
         <Card>
           <CardContent className="text-center py-12">
-            <div className="text-5xl mb-4">?</div>
+            <div className="text-5xl mb-4">OK</div>
             <h3 className="text-xl font-bold text-white mb-2">Report Submitted Successfully</h3>
             <p className="text-gray-400 text-sm max-w-sm mx-auto">
               Your incident has been logged with the municipality. A reference number has been assigned.
@@ -157,7 +164,7 @@ export default function ReportForm() {
                 {...register("description", { required: "Description is required", minLength: { value: 10, message: "Please provide more detail" } })}
                 className="form-input resize-none"
                 rows={4}
-                placeholder="Describe the issue in detail  location specifics, severity, duration, etc."
+                placeholder="Describe the issue in detail location specifics, severity, duration, etc."
               />
               {errors.description && <p className="form-error">{errors.description.message}</p>}
             </div>
@@ -166,11 +173,10 @@ export default function ReportForm() {
               <div>
                 <label className="form-label">Ward *</label>
                 <Select
-                  value={selectedWard}
+                  value={selectedWard || ""}
                   onValueChange={(val) => {
                     console.log(`STATE_CHANGE: ReportForm.ward=${val}`);
-                    setSelectedWard(val);
-                    setValue("ward", val);
+                    setValue("ward", val, { shouldValidate: true });
                   }}
                 >
                   <SelectTrigger>
@@ -182,7 +188,7 @@ export default function ReportForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                {!selectedWard && errors.ward && <p className="form-error">Please select a ward</p>}
+                {errors.ward && <p className="form-error">{errors.ward.message}</p>}
               </div>
 
               <div>
@@ -231,7 +237,7 @@ export default function ReportForm() {
               ) : (
                 <p className="text-xs text-gray-600 bg-gray-800/50 rounded-lg px-3 py-2 border border-gray-700 flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-gray-500" />
-                  Default: Cape Town CBD (-33.9249, 18.4241)  toggle above to specify exact coordinates
+                  Default: Cape Town CBD (-33.9249, 18.4241) toggle above to specify exact coordinates
                 </p>
               )}
             </div>
@@ -239,12 +245,18 @@ export default function ReportForm() {
             <div>
               <label className="form-label">Image Reference (Optional)</label>
               <div className="border-2 border-dashed border-gray-700 rounded-xl p-6 text-center hover:border-gray-600 transition-colors">
-                <p className="text-gray-500 text-sm">?? Image upload simulation</p>
+                <p className="text-gray-500 text-sm">Image upload simulation</p>
                 <input
-                  {...register("imageUrl")}
+                  {...register("imageUrl", {
+                    pattern: {
+                      value: /^(https?:\/\/.*)?$/,
+                      message: "Must be a valid HTTP/HTTPS URL",
+                    },
+                  })}
                   className="form-input mt-3"
                   placeholder="Paste image URL or leave blank"
                 />
+                {errors.imageUrl && <p className="form-error mt-1">{errors.imageUrl.message}</p>}
               </div>
             </div>
 
@@ -262,7 +274,6 @@ export default function ReportForm() {
                 onClick={() => {
                   console.log("STATE_CHANGE: ReportForm.reset triggered");
                   reset();
-                  setSelectedWard("");
                 }}
               >
                 <RotateCcw className="w-4 h-4" /> Reset
