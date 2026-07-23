@@ -1,5 +1,8 @@
+/* constant containing starting points for all api */
+
 const BASE_URL = "/api";
 
+/* error handling helper that prevents repeating error handling code in every api function */
 async function handleResponse(res, errorCode) {
   console.log(`API_RESPONSE: status=${res.status} url=${res.url}`);
   if (!res.ok) {
@@ -14,7 +17,7 @@ async function handleResponse(res, errorCode) {
 export async function fetchReports(filters = {}) {
   console.log("ENTER: fetchReports", filters);
   try {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(); /* for creating url queries */
     if (filters.category) params.set("category", filters.category);
     if (filters.status) params.set("status", filters.status);
     if (filters.ward) params.set("ward", filters.ward);
@@ -51,7 +54,7 @@ export async function submitReport(payload) {
       body: JSON.stringify(payload),
     });
     const data = await handleResponse(res, "ERR-API-003");
-    console.log(`SUCCESS: submitReport — new report id=${data.id}`);
+    console.log(`SUCCESS: submitReport  new report id=${data.id}`);
     return data;
   } catch (err) {
     console.error(`ERR-API-003: submitReport failed. ${err.message}`);

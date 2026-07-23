@@ -1,3 +1,5 @@
+/* i.e this is for the admins */
+
 import { motion } from "framer-motion";
 import ReportForm from "@/components/features/ReportForm";
 

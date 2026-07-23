@@ -14,7 +14,7 @@ export default function MapPage() {
           Infrastructure Map
         </motion.h1>
         <p className="text-gray-500 text-sm mt-1">
-          Real-time geo-spatial view of all reported municipal incidents — City of Cape Town
+          Real-time geo-spatial view of all reported municipal incidents  City of Cape Town
         </p>
       </div>
       <InfrastructureMap />

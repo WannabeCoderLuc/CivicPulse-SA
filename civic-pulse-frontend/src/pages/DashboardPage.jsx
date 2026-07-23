@@ -23,7 +23,7 @@ export default function DashboardPage() {
         <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-2xl font-bold text-white">
           Municipality Dashboard
         </motion.h1>
-        <p className="text-gray-500 text-sm mt-1">City of Cape Town — Infrastructure Management Operations Centre</p>
+        <p className="text-gray-500 text-sm mt-1">City of Cape Town Infrastructure Management Operations Centre</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">

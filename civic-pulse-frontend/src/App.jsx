@@ -8,10 +8,10 @@ import ReportPage from "@/pages/ReportPage";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import ReportsPage from "@/pages/ReportsPage";
 
-console.log("INIT: App component loaded");
+
 
 export default function App() {
-  console.log("ENTER: App render");
+
   return (
     <BrowserRouter>
       <AppProvider>
@@ -37,7 +37,7 @@ export default function App() {
 }
 
 function NotFoundPage() {
-  console.log("ENTER: NotFoundPage render");
+
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <p className="text-6xl mb-4">???</p>

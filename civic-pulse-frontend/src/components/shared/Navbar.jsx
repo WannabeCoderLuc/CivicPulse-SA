@@ -51,7 +51,7 @@ export default function Navbar() {
             {state.socketConnected ? "Live Feed Active" : "Live Feed Offline"}
           </span>
         </div>
-        <p className="text-xs text-gray-600 mt-2">Municipal Infrastructure v1.0</p>
+        <p className="text-xs text-gray-600 mt-2">Municipal Infrastructure DEMO - Luc Stefano</p>
       </div>
     </aside>
   );

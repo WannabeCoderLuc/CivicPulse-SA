@@ -11,8 +11,8 @@ const STATUSES = ["Reported", "Verified", "Assigned", "Repair Started", "Complet
 const ISSUE_TITLES = {
   Water: ["Burst Water Main", "Water Meter Theft", "Low Water Pressure", "Contaminated Water Supply"],
   Electricity: ["Street Light Outage", "Transformer Fault", "Power Surge Reported", "Exposed Live Wiring"],
-  Roads: ["Pothole — Taxi Route", "Road Subsidence", "Storm Drain Blockage", "Traffic Light Failure"],
-  Waste: ["Illegal Dumping Site", "Overflowing Skip Bins", "Missed Collection — Refuse", "Hazardous Waste Abandoned"],
+  Roads: ["Pothole  Taxi Route", "Road Subsidence", "Storm Drain Blockage", "Traffic Light Failure"],
+  Waste: ["Illegal Dumping Site", "Overflowing Skip Bins", "Missed Collection  Refuse", "Hazardous Waste Abandoned"],
   Sewer: ["Blocked Sewer Line", "Sewer Collapse", "Raw Sewage Overflow", "Manhole Cover Missing"],
 };
 const REPORTERS = [
@@ -78,7 +78,7 @@ function generateLiveReport() {
       isSimulated: true,
     };
 
-    console.log(`SUCCESS: generateLiveReport — id=${report.id} category=${category} ward=${report.ward}`);
+    console.log(`SUCCESS: generateLiveReport ï¿½ id=${report.id} category=${category} ward=${report.ward}`);
     return report;
   } catch (err) {
     console.error(`ERR-SOCKET-001: generateLiveReport failed. ${err.message}`);
@@ -105,7 +105,7 @@ function generateStatusUpdate() {
       },
     };
 
-    console.log(`SUCCESS: generateStatusUpdate — reportId=${reportId} newStatus=${newStatus}`);
+    console.log(`SUCCESS: generateStatusUpdate ï¿½ reportId=${reportId} newStatus=${newStatus}`);
     return update;
   } catch (err) {
     console.error(`ERR-SOCKET-002: generateStatusUpdate failed. ${err.message}`);
@@ -130,7 +130,7 @@ function generateKpiUpdate() {
       urgent,
     };
 
-    console.log(`SUCCESS: generateKpiUpdate — total=${total} resolved=${resolved}`);
+    console.log(`SUCCESS: generateKpiUpdate ï¿½ total=${total} resolved=${resolved}`);
     return kpi;
   } catch (err) {
     console.error(`ERR-SOCKET-003: generateKpiUpdate failed. ${err.message}`);
@@ -188,7 +188,7 @@ let statusUpdateInterval = null;
 let kpiInterval = null;
 
 function startSimulation() {
-  console.log("ENTER: startSimulation — initiating live data broadcast loops");
+  console.log("ENTER: startSimulation ï¿½ initiating live data broadcast loops");
 
   liveReportInterval = setInterval(() => {
     if (connectedClients === 0) return;

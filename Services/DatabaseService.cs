@@ -78,7 +78,7 @@ public class DatabaseService
         var count = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM Reports");
         if (count > 0)
         {
-            Console.WriteLine("INFO: Seed skipped � data already exists");
+            Console.WriteLine("INFO: Seed skipped  data already exists");
             return;
         }
     /* Sample data using CT as example, these r the reports */
@@ -189,7 +189,7 @@ public class DatabaseService
                 VALUES (@ReportId, @Stage, @Note, @PerformedBy, @Timestamp);",
                 new { ReportId = id, Stage = "Reported", Note = "Issue submitted by citizen via CivicPulse SA portal", PerformedBy = report.ReportedBy, Timestamp = report.CreatedAt.ToString("o") });
 
-            Console.WriteLine($"SUCCESS: DB_WRITE_COMPLETE � new report id={id}");
+            Console.WriteLine($"SUCCESS: DB_WRITE_COMPLETE  new report id={id}");
             return id;
         }
         catch (Exception ex)
@@ -245,7 +245,7 @@ public class DatabaseService
             using var connection = CreateConnection();
             await connection.ExecuteAsync("DELETE FROM TimelineEvents WHERE ReportId = @Id", new { Id = id });
             var deleted = await connection.ExecuteAsync("DELETE FROM Reports WHERE Id = @Id", new { Id = id });
-            Console.WriteLine($"SUCCESS: DeleteReportAsync � report {id} removed");
+            Console.WriteLine($"SUCCESS: DeleteReportAsync  report {id} removed");
             return deleted > 0;
         }
         catch (Exception ex)
@@ -287,7 +287,7 @@ public class DatabaseService
             var pending = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Reports WHERE Status = 'Reported'");
 
             var summary = new KpiSummary { TotalReports = total, Resolved = resolved, Pending = pending, InProgress = inProgress, Urgent = urgent };
-            Console.WriteLine($"SUCCESS: GetKpiSummaryAsync � Total={total} Resolved={resolved} Pending={pending}");
+            Console.WriteLine($"SUCCESS: GetKpiSummaryAsync  Total={total} Resolved={resolved} Pending={pending}");
             return summary;
         }
         catch (Exception ex)

@@ -34,7 +34,7 @@ export default function KpiCard({ label, value, icon, color = "#3b82f6", subtitl
               className="text-3xl font-extrabold mt-1 tracking-tight"
               style={{ color }}
             >
-              {value ?? "—"}
+              {value ?? "-"}
             </p>
 
             {subtitle && (

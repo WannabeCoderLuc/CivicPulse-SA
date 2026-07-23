@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "CivicPulse SA API", Version = "v1", Description = "Municipal Infrastructure Management Platform — City of Cape Town" });
+    c.SwaggerDoc("v1", new() { Title = "CivicPulse SA API", Version = "v1", Description = "Municipal Infrastructure Management Platform  City of Cape Town" });
 });
 
 builder.Services.AddSingleton<DatabaseService>();
