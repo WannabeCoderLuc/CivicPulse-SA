@@ -1,3 +1,5 @@
+/* This simulates reports in real time, I used a publically availabl template to help me make this as it wasn't apart of our course work */
+
 import { io } from "socket.io-client";
 
 const SOCKET_URL = "http://localhost:3001";
