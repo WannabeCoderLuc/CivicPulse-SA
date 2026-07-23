@@ -2,12 +2,15 @@ using Dapper;
 using Microsoft.Data.Sqlite;
 using CivicPulse_SA.Models;
 
+
+/* Sample data is based off south africa, cape town, and south african names to make my demo as real as possible */
+
 namespace CivicPulse_SA.Services;
 
 public class DatabaseService
 {
     private readonly string _connectionString;
-
+    /* Database creation, this runs does runs when application startup is intiated via program.cs  */
     public DatabaseService(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection")
@@ -23,7 +26,7 @@ public class DatabaseService
 
     private void InitialiseDatabase()
     {
-        Console.WriteLine("ENTER: InitialiseDatabase");
+        Console.WriteLine("ENTER: InitialiseDatabase"); /* initial table execution */
         try
         {
             using var connection = CreateConnection();
@@ -75,14 +78,14 @@ public class DatabaseService
         var count = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM Reports");
         if (count > 0)
         {
-            Console.WriteLine("INFO: Seed skipped — data already exists");
+            Console.WriteLine("INFO: Seed skipped ï¿½ data already exists");
             return;
         }
-
+    /* Sample data using CT as example, these r the reports */
         var reports = new List<Report>
         {
             new() { Title = "Burst Water Main", Description = "Water gushing from ruptured main on Voortrekker Road", Category = "Water", Status = "Urgent", Ward = "Ward 28", Latitude = -33.9249, Longitude = 18.4241, ReportedBy = "Sipho Dlamini", CreatedAt = DateTime.UtcNow.AddDays(-5), UpdatedAt = DateTime.UtcNow.AddDays(-5) },
-            new() { Title = "Pothole — Taxi Route", Description = "Large pothole causing vehicle damage near taxi rank", Category = "Roads", Status = "In Progress", Ward = "Ward 15", Latitude = -33.9310, Longitude = 18.4650, ReportedBy = "Zanele Mokoena", CreatedAt = DateTime.UtcNow.AddDays(-4), UpdatedAt = DateTime.UtcNow.AddDays(-2) },
+            new() { Title = "Pothole Taxi Route", Description = "Large pothole causing vehicle damage near taxi rank", Category = "Roads", Status = "In Progress", Ward = "Ward 15", Latitude = -33.9310, Longitude = 18.4650, ReportedBy = "Zanele Mokoena", CreatedAt = DateTime.UtcNow.AddDays(-4), UpdatedAt = DateTime.UtcNow.AddDays(-2) },
             new() { Title = "Street Light Outage", Description = "Five consecutive street lights not functioning since Monday", Category = "Electricity", Status = "Reported", Ward = "Ward 7", Latitude = -33.9180, Longitude = 18.4320, ReportedBy = "Thabo Nkosi", CreatedAt = DateTime.UtcNow.AddDays(-3), UpdatedAt = DateTime.UtcNow.AddDays(-3) },
             new() { Title = "Illegal Dumping Site", Description = "Refuse accumulation on vacant lot attracting vermin", Category = "Waste", Status = "Verified", Ward = "Ward 33", Latitude = -33.9400, Longitude = 18.4100, ReportedBy = "Lerato Sithole", CreatedAt = DateTime.UtcNow.AddDays(-7), UpdatedAt = DateTime.UtcNow.AddDays(-1) },
             new() { Title = "Blocked Sewer Line", Description = "Raw sewage overflow on pavement outside No. 14 Buitenkant St", Category = "Sewer", Status = "Assigned", Ward = "Ward 77", Latitude = -33.9260, Longitude = 18.4190, ReportedBy = "Nomsa Khumalo", CreatedAt = DateTime.UtcNow.AddDays(-2), UpdatedAt = DateTime.UtcNow.AddDays(-1) },
@@ -90,7 +93,7 @@ public class DatabaseService
             new() { Title = "Road Subsidence", Description = "Road surface sinking near storm drain on Main Road", Category = "Roads", Status = "Urgent", Ward = "Ward 64", Latitude = -33.9350, Longitude = 18.4500, ReportedBy = "Fatima Hendricks", CreatedAt = DateTime.UtcNow.AddDays(-1), UpdatedAt = DateTime.UtcNow.AddDays(-1) },
             new() { Title = "Transformer Fault", Description = "Transformer humming loudly and sparking intermittently", Category = "Electricity", Status = "Repair Started", Ward = "Ward 15", Latitude = -33.9290, Longitude = 18.4680, ReportedBy = "Piet van der Merwe", CreatedAt = DateTime.UtcNow.AddDays(-6), UpdatedAt = DateTime.UtcNow },
             new() { Title = "Overflowing Skip Bins", Description = "Municipal skip bins overflowing at community centre", Category = "Waste", Status = "Completed", Ward = "Ward 7", Latitude = -33.9160, Longitude = 18.4350, ReportedBy = "Precious Mahlangu", CreatedAt = DateTime.UtcNow.AddDays(-8), UpdatedAt = DateTime.UtcNow.AddDays(-2) },
-            new() { Title = "Sewer Collapse — Informal Settlement", Description = "Sewer infrastructure collapsed beneath footpath", Category = "Sewer", Status = "Reported", Ward = "Ward 33", Latitude = -33.9420, Longitude = 18.4080, ReportedBy = "Bongani Cele", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+            new() { Title = "Sewer Collapse Informal Settlement", Description = "Sewer infrastructure collapsed beneath footpath", Category = "Sewer", Status = "Reported", Ward = "Ward 33", Latitude = -33.9420, Longitude = 18.4080, ReportedBy = "Bongani Cele", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
         };
 
         foreach (var report in reports)
@@ -113,7 +116,7 @@ public class DatabaseService
 
         Console.WriteLine("SUCCESS: Seed data inserted");
     }
-
+    /* Below is the status of all reports, south african names for realism */
     private static List<(string, string, string, double)> GetInitialStages(string status)
     {
         var all = new List<(string, string, string, double)>
@@ -186,7 +189,7 @@ public class DatabaseService
                 VALUES (@ReportId, @Stage, @Note, @PerformedBy, @Timestamp);",
                 new { ReportId = id, Stage = "Reported", Note = "Issue submitted by citizen via CivicPulse SA portal", PerformedBy = report.ReportedBy, Timestamp = report.CreatedAt.ToString("o") });
 
-            Console.WriteLine($"SUCCESS: DB_WRITE_COMPLETE — new report id={id}");
+            Console.WriteLine($"SUCCESS: DB_WRITE_COMPLETE ï¿½ new report id={id}");
             return id;
         }
         catch (Exception ex)
@@ -207,7 +210,7 @@ public class DatabaseService
                 new { Status = status, UpdatedAt = DateTime.UtcNow.ToString("o"), Id = id });
 
             if (updated > 0)
-            {
+            { /* these are statuses which can be viewed by the admin */
                 var note = status switch
                 {
                     "Verified" => "Field agent confirmed the issue on-site",
@@ -242,7 +245,7 @@ public class DatabaseService
             using var connection = CreateConnection();
             await connection.ExecuteAsync("DELETE FROM TimelineEvents WHERE ReportId = @Id", new { Id = id });
             var deleted = await connection.ExecuteAsync("DELETE FROM Reports WHERE Id = @Id", new { Id = id });
-            Console.WriteLine($"SUCCESS: DeleteReportAsync — report {id} removed");
+            Console.WriteLine($"SUCCESS: DeleteReportAsync ï¿½ report {id} removed");
             return deleted > 0;
         }
         catch (Exception ex)
@@ -284,7 +287,7 @@ public class DatabaseService
             var pending = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Reports WHERE Status = 'Reported'");
 
             var summary = new KpiSummary { TotalReports = total, Resolved = resolved, Pending = pending, InProgress = inProgress, Urgent = urgent };
-            Console.WriteLine($"SUCCESS: GetKpiSummaryAsync — Total={total} Resolved={resolved} Pending={pending}");
+            Console.WriteLine($"SUCCESS: GetKpiSummaryAsync ï¿½ Total={total} Resolved={resolved} Pending={pending}");
             return summary;
         }
         catch (Exception ex)

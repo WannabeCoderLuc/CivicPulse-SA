@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ReportsList from "../components/features/ReportsList";
+import ReportsList from "@/components/features/ReportsList";
 
 export default function ReportsPage() {
   console.log("ENTER: ReportsPage render");

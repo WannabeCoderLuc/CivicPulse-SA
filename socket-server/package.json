@@ -1,7 +1,7 @@
 {
   "name": "civicpulse-socket-server",
   "version": "1.0.0",
-  "description": "CivicPulse SA — Real-time Socket.io broadcast server",
+  "description": "CivicPulse SA real-time server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

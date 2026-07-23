@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import AnalyticsCharts from "../components/features/AnalyticsCharts";
+import AnalyticsCharts from "@/components/features/AnalyticsCharts";
 
 export default function AnalyticsPage() {
   console.log("ENTER: AnalyticsPage render");

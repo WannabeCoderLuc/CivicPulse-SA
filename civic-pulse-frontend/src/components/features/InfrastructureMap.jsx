@@ -2,11 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { motion } from "framer-motion";
-import { useAppContext } from "../../context/AppContext";
-import { fetchReports } from "../../services/api";
-import { CATEGORIES, MAP_CENTER, MAP_ZOOM } from "../../mock/constants";
-import { createLeafletIcon, getCategoryIcon, formatDate } from "../../utils/helpers";
-import StatusBadge from "../shared/StatusBadge";
+import { useAppContext } from "@/context/AppContext";
+import { fetchReports } from "@/services/api";
+import { CATEGORIES, MAP_CENTER, MAP_ZOOM } from "@/mock/constants";
+import { createLeafletIcon, getCategoryIcon, formatDate } from "@/utils/helpers";
+import { toastError } from "@/lib/toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import StatusBadge from "@/components/shared/StatusBadge";
 
 function RecenterMap({ center }) {
   const map = useMap();
@@ -36,7 +38,7 @@ export default function InfrastructureMap() {
       console.log(`SUCCESS: InfrastructureMap loaded ${data.length} reports`);
     } catch (err) {
       console.error(`ERR-MAP-001: loadMapReports failed. ${err.message}`);
-      window.alert(`ERR-MAP-001: Failed to load map reports. ${err.message}`);
+      toastError("ERR-MAP-001", "Failed to load map reports.");
     } finally {
       setIsLoading(false);
     }
@@ -100,18 +102,14 @@ export default function InfrastructureMap() {
           ))}
         </div>
         <div className="h-5 w-px bg-gray-700" />
-        <select
-          value={activeStatus}
-          onChange={(e) => {
-            console.log(`STATE_CHANGE: InfrastructureMap.activeStatus=${e.target.value}`);
-            setActiveStatus(e.target.value);
-          }}
-          className="bg-gray-800 border border-gray-700 text-gray-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-civic-blue"
-        >
-          {statuses.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
+        <Select value={activeStatus} onValueChange={(v) => { console.log(`STATE_CHANGE: InfrastructureMap.activeStatus=${v}`); setActiveStatus(v); }}>
+          <SelectTrigger className="w-44">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {statuses.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+          </SelectContent>
+        </Select>
         <span className="text-xs text-gray-500 ml-auto">
           {isLoading ? "Loading…" : `${filteredReports.length} incident${filteredReports.length !== 1 ? "s" : ""}`}
         </span>

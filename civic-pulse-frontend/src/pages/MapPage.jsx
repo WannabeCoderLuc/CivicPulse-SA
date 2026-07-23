@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import InfrastructureMap from "../components/features/InfrastructureMap";
+import InfrastructureMap from "@/components/features/InfrastructureMap";
 
 export default function MapPage() {
   console.log("ENTER: MapPage render");

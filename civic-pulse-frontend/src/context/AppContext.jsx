@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect, useCallback } from "react";
-import { fetchReports, fetchKpi } from "../services/api";
-import { getSocket } from "../services/socket";
+import { fetchReports, fetchKpi } from "@/services/api";
+import { getSocket } from "@/services/socket";
+import { toastError, toastInfo } from "@/lib/toast";
 
 const AppContext = createContext(null);
 
@@ -58,7 +59,7 @@ export function AppProvider({ children }) {
     } catch (err) {
       console.error(`ERR-CTX-001: loadReports failed. ${err.message}`);
       dispatch({ type: "SET_ERROR", payload: err.message });
-      window.alert(`ERR-CTX-001: Failed to load reports. ${err.message}`);
+      toastError("ERR-CTX-001", "Failed to load reports from the database.");
     }
   }, []);
 
@@ -83,6 +84,7 @@ export function AppProvider({ children }) {
     socket.on("connect", () => {
       dispatch({ type: "SET_SOCKET_CONNECTED", payload: true });
       console.log("STATE_CHANGE: socketConnected=true");
+      toastInfo("Live feed connected.");
     });
 
     socket.on("disconnect", () => {

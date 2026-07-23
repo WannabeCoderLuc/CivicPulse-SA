@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useAppContext } from "../../context/AppContext";
-import { getCategoryIcon, timeAgo } from "../../utils/helpers";
-import StatusBadge from "./StatusBadge";
+import { useAppContext } from "@/context/AppContext";
+import { getCategoryIcon, timeAgo } from "@/utils/helpers";
+import StatusBadge from "@/components/shared/StatusBadge";
 
 export default function LiveFeed() {
   const { state } = useAppContext();

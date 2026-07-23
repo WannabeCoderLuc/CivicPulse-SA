@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { fetchTimeline } from "../../services/api";
-import { TIMELINE_STAGES } from "../../mock/constants";
-import { formatDate } from "../../utils/helpers";
+import { fetchTimeline } from "@/services/api";
+import { TIMELINE_STAGES } from "@/mock/constants";
+import { formatDate } from "@/utils/helpers";
+import { toastError } from "@/lib/toast";
 
 const STAGE_ICONS = {
   Reported: "??",
@@ -29,7 +30,7 @@ export default function ReportTimeline({ reportId }) {
       })
       .catch((err) => {
         console.error(`ERR-TIMELINE-001: loadTimeline failed. ${err.message}`);
-        window.alert(`ERR-TIMELINE-001: Failed to load timeline.\n${err.message}`);
+        toastError("ERR-TIMELINE-001", `Failed to load audit trail for report #${reportId}.`);
       })
       .finally(() => setIsLoading(false));
   }, [reportId]);

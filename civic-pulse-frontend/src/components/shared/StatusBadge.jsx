@@ -1,4 +1,4 @@
-import { getStatusBadgeClass, getStatusDot } from "../../utils/helpers";
+import { getStatusBadgeClass, getStatusDot } from "@/utils/helpers";
 
 export default function StatusBadge({ status }) {
   return (

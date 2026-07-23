@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ReportForm from "../components/features/ReportForm";
+import ReportForm from "@/components/features/ReportForm";
 
 export default function ReportPage() {
   console.log("ENTER: ReportPage render");

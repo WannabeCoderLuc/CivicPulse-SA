@@ -4,8 +4,9 @@ import {
   PieChart, Pie, Cell, Legend, CartesianGrid,
 } from "recharts";
 import { motion } from "framer-motion";
-import { fetchByCategory, fetchWardPerformance } from "../../services/api";
-import { CATEGORY_COLORS } from "../../mock/constants";
+import { fetchByCategory, fetchWardPerformance } from "@/services/api";
+import { CATEGORY_COLORS } from "@/mock/constants";
+import { toastError } from "@/lib/toast";
 
 const CHART_COLORS = ["#3B82F6", "#F59E0B", "#8B5CF6", "#10B981", "#EF4444", "#06B6D4", "#EC4899"];
 
@@ -41,7 +42,7 @@ export default function AnalyticsCharts() {
       })
       .catch((err) => {
         console.error(`ERR-ANALYTICS-001: loadData failed. ${err.message}`);
-        window.alert(`ERR-ANALYTICS-001: Failed to load analytics data.\n${err.message}`);
+        toastError("ERR-ANALYTICS-001", "Failed to load analytics data.");
       })
       .finally(() => setIsLoading(false));
   }, []);

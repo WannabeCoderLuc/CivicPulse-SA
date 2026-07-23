@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useAppContext } from "../../context/AppContext";
-import KpiCard from "../../components/shared/KpiCard";
-import LiveFeed from "../../components/shared/LiveFeed";
+import { useAppContext } from "@/context/AppContext";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import KpiCard from "@/components/shared/KpiCard";
+import LiveFeed from "@/components/shared/LiveFeed";
 
 export default function DashboardPage() {
   console.log("ENTER: DashboardPage render");
@@ -19,11 +20,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <motion.h1
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold text-white"
-        >
+        <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-2xl font-bold text-white">
           Municipality Dashboard
         </motion.h1>
         <p className="text-gray-500 text-sm mt-1">City of Cape Town — Infrastructure Management Operations Centre</p>
@@ -31,12 +28,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
         {kpiCards.map((card, i) => (
-          <motion.div
-            key={card.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 }}
-          >
+          <motion.div key={card.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
             <KpiCard {...card} />
           </motion.div>
         ))}
@@ -44,22 +36,23 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <LiveFeed />
-
-        <div className="card">
-          <h3 className="font-semibold text-white mb-4">Recent Activity</h3>
-          <div className="space-y-3">
-            {state.reports.slice(0, 6).map((report) => (
-              <div key={report.id} className="flex items-center gap-3 text-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-civic-blue flex-shrink-0" />
-                <span className="text-gray-300 truncate flex-1">{report.title}</span>
-                <span className="text-gray-600 text-xs flex-shrink-0">{report.ward}</span>
-              </div>
-            ))}
-            {state.reports.length === 0 && (
-              <p className="text-gray-600 text-sm">No reports loaded yet.</p>
-            )}
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Recent Activity</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {state.reports.slice(0, 6).map((report) => (
+                <div key={report.id} className="flex items-center gap-3 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-civic-blue flex-shrink-0" />
+                  <span className="text-gray-300 truncate flex-1">{report.title}</span>
+                  <span className="text-gray-600 text-xs flex-shrink-0">{report.ward}</span>
+                </div>
+              ))}
+              {state.reports.length === 0 && <p className="text-gray-600 text-sm">No reports loaded yet.</p>}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
